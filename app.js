@@ -65,19 +65,19 @@ const NeuralState = {
                 "Your brain is firing on all cylinders. Keep the momentum!",
                 "Pressure creates diamonds. You're becoming unbreakable!"
             ],
-            arabic: [
-                "المسارات العصبية بتتفعل. استعد للتركيز العميق.",
-                "المحرك الإدراكي اشتغل. أقصى انتاجية متاحة.",
-                "دخّلت حالة التدفق. المشتتات الخارجية اتمنعت.",
-                "تحسين موجات المخ شغال. التركيز في أعلى مستوى.",
-                "مود الأداء العصبي اتعمل. استعد للتركيز النخبوي."
-            ],
             motivation: [
                 "The pain of discipline weighs ounces. Regret weighs tons.",
                 "Future you is watching. Make them proud.",
                 "Excuses don't build empires. Focus does.",
                 "One more minute. One more victory.",
                 "They'll know your name. Earn it here."
+            ],
+            completion: [
+                "Session complete! Cognitive capacity expanded!",
+                "Mission accomplished! Focus level upgraded!",
+                "Elite focus maintained! Brainpower amplified!",
+                "Neuro-session successful! Mental stamina increased!",
+                "Cognitive workout complete! Mind stronger than ever!"
             ]
         },
         ar: {
@@ -95,19 +95,19 @@ const NeuralState = {
                 "مخك شغال بأقصى طاقة. استمر في الزخم!",
                 "الضغط بيعمل الماس. انت بتبقى صعب الانكسار!"
             ],
-            arabic: [
-                "المسارات العصبية بتتفعل. استعد للتركيز العميق.",
-                "المحرك الإدراكي اشتغل. أقصى انتاجية متاحة.",
-                "دخّلت حالة التدفق. المشتتات الخارجية اتمنعت.",
-                "تحسين موجات المخ شغال. التركيز في أعلى مستوى.",
-                "مود الأداء العصبي اتعمل. استعد للتركيز النخبوي."
-            ],
             motivation: [
                 "وجع الانضباط خفيف. الندم تقيل.",
                 "نفسك في المستقبل شايفاك. خليها تفخر بيك.",
                 "الأعذار مش بتبني إمبراطوريات. التركيز هو اللي بيبني.",
                 "دقيقة زيادة. انتصار زيادة.",
                 "هيعرفوا اسمك. اكسبه هنا."
+            ],
+            completion: [
+                "الجلسة اكتملت! القدرة الإدراكية اتوسعت!",
+                "المهمة اتحققت! مستوى التركيز ارتفع!",
+                "التركيز النخبوي اتحافظ عليه! قوة العقل تضاعفت!",
+                "الجلسة العصبية نجحت! التحمل الذهني زاد!",
+                "التدريب الإدراكي اكتمل! العقل بقى أقوى من أي وقت!"
             ]
         }
     },
@@ -128,75 +128,14 @@ const NeuralState = {
 };
 
 // ===== DOM ELEMENTS =====
-const neuralDOM = {
-    // Modals
-    welcomeModal: document.getElementById('welcomeModal'),
-    statsModal: document.getElementById('statsModal'),
-    customTimerModal: document.getElementById('customTimerModal'),
-    
-    // Timer Elements
-    timerDisplay: document.getElementById('timerDisplay'),
-    minutesDisplay: document.querySelector('.minutes'),
-    secondsDisplay: document.querySelector('.seconds'),
-    progressCircle: document.querySelector('.progress-ring__circle'),
-    progressFill: document.getElementById('progressFill'),
-    progressText: document.getElementById('progressText'),
-    progressTextAr: document.getElementById('progressTextAr'),
-    
-    // Buttons
-    enterBtn: document.getElementById('enterBtn'),
-    cancelBtn: document.getElementById('cancelBtn'),
-    startBtn: document.getElementById('startBtn'),
-    pauseBtn: document.getElementById('pauseBtn'),
-    resetBtn: document.getElementById('resetBtn'),
-    fullscreenBtn: document.getElementById('fullscreenBtn'),
-    statsBtn: document.getElementById('statsBtn'),
-    nextMsgBtn: document.getElementById('nextMsgBtn'),
-    quickStartBtn: document.getElementById('quickStartBtn'),
-    deepFocusBtn: document.getElementById('deepFocusBtn'),
-    quickBreakBtn: document.getElementById('quickBreakBtn'),
-    focusMusicBtn: document.getElementById('focusMusicBtn'),
-    
-    // Mode Selectors
-    modeButtons: document.querySelectorAll('.mode-btn'),
-    
-    // Activities
-    activityCards: document.querySelectorAll('.activity-card'),
-    customActivityPanel: document.getElementById('customActivityPanel'),
-    customActivityInput: document.getElementById('customActivityInput'),
-    customDuration: document.getElementById('customDuration'),
-    saveCustomBtn: document.getElementById('saveCustomBtn'),
-    
-    // Psychology Boosters
-    boosterCards: document.querySelectorAll('.booster-card'),
-    boosterToggles: document.querySelectorAll('.booster-toggle input'),
-    activeBoosters: document.getElementById('activeBoosters'),
-    
-    // Language
-    langButtons: document.querySelectorAll('.lang-btn'),
-    
-    // Messages
-    englishMessage: document.getElementById('englishMessage'),
-    arabicMessage: document.getElementById('arabicMessage'),
-    
-    // Stats Display
-    streakCounter: document.getElementById('streakCounter'),
-    focusScore: document.getElementById('focusScore'),
-    totalSessionTime: document.getElementById('totalSessionTime'),
-    completedSessions: document.getElementById('completedSessions'),
-    focusLevel: document.getElementById('focusLevel'),
-    footerSessions: document.getElementById('footerSessions'),
-    footerHours: document.getElementById('footerHours'),
-    footerProductivity: document.getElementById('footerProductivity'),
-    
-    // Timer Mode Labels
-    timerModeLabel: document.getElementById('timerModeLabel'),
-    timerModeLabelAr: document.getElementById('timerModeLabelAr')
-};
+let neuralDOM = {};
 
 // ===== INITIALIZATION =====
 function neuralInit() {
     console.log('⚡ Neural Focus System Initializing...');
+    
+    // Initialize DOM elements FIRST
+    initializeDOMElements();
     
     // Detect environment
     detectNeuralEnvironment();
@@ -213,7 +152,88 @@ function neuralInit() {
     // Start cognitive engine
     startCognitiveEngine();
     
+    // Mobile optimizations
+    optimizeForMobile();
+    
+    // Setup touch events
+    setupTouchEvents();
+    
     console.log('🧠 Neural System Ready');
+}
+
+// ===== DOM ELEMENTS INITIALIZATION =====
+function initializeDOMElements() {
+    console.log('🔍 Initializing DOM elements...');
+    
+    // Modals
+    neuralDOM.welcomeModal = document.getElementById('welcomeModal');
+    neuralDOM.statsModal = document.getElementById('statsModal');
+    neuralDOM.customTimerModal = document.getElementById('customTimerModal');
+    
+    // Timer Elements
+    neuralDOM.timerDisplay = document.getElementById('timerDisplay');
+    neuralDOM.minutesDisplay = document.querySelector('.minutes');
+    neuralDOM.secondsDisplay = document.querySelector('.seconds');
+    neuralDOM.progressCircle = document.querySelector('.progress-ring__circle');
+    neuralDOM.progressFill = document.getElementById('progressFill');
+    neuralDOM.progressText = document.getElementById('progressText');
+    neuralDOM.progressTextAr = document.getElementById('progressTextAr');
+    
+    // Buttons
+    neuralDOM.enterBtn = document.getElementById('enterBtn');
+    neuralDOM.cancelBtn = document.getElementById('cancelBtn');
+    neuralDOM.startBtn = document.getElementById('startBtn');
+    neuralDOM.pauseBtn = document.getElementById('pauseBtn');
+    neuralDOM.resetBtn = document.getElementById('resetBtn');
+    neuralDOM.fullscreenBtn = document.getElementById('fullscreenBtn');
+    neuralDOM.statsBtn = document.getElementById('statsBtn');
+    neuralDOM.nextMsgBtn = document.getElementById('nextMsgBtn');
+    neuralDOM.quickStartBtn = document.getElementById('quickStartBtn');
+    neuralDOM.deepFocusBtn = document.getElementById('deepFocusBtn');
+    neuralDOM.quickBreakBtn = document.getElementById('quickBreakBtn');
+    neuralDOM.focusMusicBtn = document.getElementById('focusMusicBtn');
+    
+    // Mode Selectors
+    neuralDOM.modeButtons = document.querySelectorAll('.mode-btn');
+    
+    // Activities
+    neuralDOM.activityCards = document.querySelectorAll('.activity-card');
+    neuralDOM.customActivityPanel = document.getElementById('customActivityPanel');
+    neuralDOM.customActivityInput = document.getElementById('customActivityInput');
+    neuralDOM.customDuration = document.getElementById('customDuration');
+    neuralDOM.saveCustomBtn = document.getElementById('saveCustomBtn');
+    
+    // Psychology Boosters
+    neuralDOM.boosterCards = document.querySelectorAll('.booster-card');
+    neuralDOM.boosterToggles = document.querySelectorAll('.booster-toggle input');
+    neuralDOM.activeBoosters = document.getElementById('activeBoosters');
+    
+    // Language
+    neuralDOM.langButtons = document.querySelectorAll('.lang-btn');
+    
+    // Messages
+    neuralDOM.englishMessage = document.getElementById('englishMessage');
+    neuralDOM.arabicMessage = document.getElementById('arabicMessage');
+    
+    // Stats Display
+    neuralDOM.streakCounter = document.getElementById('streakCounter');
+    neuralDOM.focusScore = document.getElementById('focusScore');
+    neuralDOM.totalSessionTime = document.getElementById('totalSessionTime');
+    neuralDOM.completedSessions = document.getElementById('completedSessions');
+    neuralDOM.focusLevel = document.getElementById('focusLevel');
+    neuralDOM.footerSessions = document.getElementById('footerSessions');
+    neuralDOM.footerHours = document.getElementById('footerHours');
+    neuralDOM.footerProductivity = document.getElementById('footerProductivity');
+    
+    // Timer Mode Labels
+    neuralDOM.timerModeLabel = document.getElementById('timerModeLabel');
+    neuralDOM.timerModeLabelAr = document.getElementById('timerModeLabelAr');
+    
+    // Log found elements
+    console.log('✅ DOM elements initialized');
+    console.log('Welcome Modal:', neuralDOM.welcomeModal ? 'Found' : 'Not found');
+    console.log('Enter Button:', neuralDOM.enterBtn ? 'Found' : 'Not found');
+    console.log('Cancel Button:', neuralDOM.cancelBtn ? 'Found' : 'Not found');
 }
 
 // ===== ENVIRONMENT DETECTION =====
@@ -237,6 +257,8 @@ function detectNeuralEnvironment() {
     if (isMobile || isTablet) {
         document.body.classList.add('touch-optimized');
     }
+    
+    console.log(`📱 Device detected: ${NeuralState.deviceType}`);
 }
 
 // ===== STATE MANAGEMENT =====
@@ -282,6 +304,8 @@ function loadNeuralState() {
 }
 
 function createDefaultNeuralImprint() {
+    console.log('👤 Creating default neural imprint for new user');
+    
     // First time user experience
     NeuralState.analytics.totalSessions = 0;
     NeuralState.analytics.totalMinutes = 0;
@@ -293,10 +317,12 @@ function createDefaultNeuralImprint() {
     NeuralState.analytics.dailyGoal = 4;
     NeuralState.analytics.todaySessions = 0;
     
-    // Welcome sequence
+    // Show welcome modal for new users
     setTimeout(() => {
-        showNeuralMessage('welcome');
-    }, 1000);
+        if (neuralDOM.welcomeModal) {
+            neuralDOM.welcomeModal.classList.add('active');
+        }
+    }, 500);
 }
 
 function saveNeuralState() {
@@ -325,6 +351,8 @@ function saveNeuralState() {
 
 // ===== NEURAL INTERFACE =====
 function initializeNeuralInterface() {
+    console.log('🎨 Initializing neural interface...');
+    
     // Set language
     switchNeuralLanguage(NeuralState.language);
     
@@ -340,19 +368,33 @@ function initializeNeuralInterface() {
     // Update psychology boosters
     updatePsychologyBoosters();
     
-    // Show initial message
-    showNeuralMessage('startup');
+    // Show initial message ONLY if welcome modal is not active
+    if (!neuralDOM.welcomeModal || !neuralDOM.welcomeModal.classList.contains('active')) {
+        showNeuralMessage('startup');
+    }
     
     // Create particle background
     createNeuralParticles();
+    
+    // Hide welcome modal if user has already seen it
+    const hasSeenWelcome = localStorage.getItem('hasSeenWelcome');
+    if (hasSeenWelcome === 'true' && neuralDOM.welcomeModal) {
+        neuralDOM.welcomeModal.classList.remove('active');
+        showNeuralMessage('startup');
+    }
 }
 
 function updateNeuralTimer() {
     const minutes = Math.floor(NeuralState.currentTime / 60);
     const seconds = NeuralState.currentTime % 60;
     
-    neuralDOM.minutesDisplay.textContent = minutes.toString().padStart(2, '0');
-    neuralDOM.secondsDisplay.textContent = seconds.toString().padStart(2, '0');
+    if (neuralDOM.minutesDisplay) {
+        neuralDOM.minutesDisplay.textContent = minutes.toString().padStart(2, '0');
+    }
+    
+    if (neuralDOM.secondsDisplay) {
+        neuralDOM.secondsDisplay.textContent = seconds.toString().padStart(2, '0');
+    }
     
     // Update progress
     updateNeuralProgress();
@@ -368,40 +410,71 @@ function updateNeuralProgress() {
     const offset = circumference - (percentage / 100) * circumference;
     
     // Update circle progress
-    neuralDOM.progressCircle.style.strokeDashoffset = offset;
+    if (neuralDOM.progressCircle) {
+        neuralDOM.progressCircle.style.strokeDashoffset = offset;
+    }
     
     // Update bar progress
-    neuralDOM.progressFill.style.width = `${100 - percentage}%`;
+    if (neuralDOM.progressFill) {
+        neuralDOM.progressFill.style.width = `${100 - percentage}%`;
+    }
     
     // Update progress text
     const remainingText = `${Math.floor(NeuralState.currentTime / 60)}:${(NeuralState.currentTime % 60).toString().padStart(2, '0')} remaining`;
     const remainingTextAr = `${Math.floor(NeuralState.currentTime / 60)}:${(NeuralState.currentTime % 60).toString().padStart(2, '0')} باقي`;
     
-    neuralDOM.progressText.textContent = remainingText;
-    neuralDOM.progressTextAr.textContent = remainingTextAr;
+    if (neuralDOM.progressText) {
+        neuralDOM.progressText.textContent = remainingText;
+    }
+    
+    if (neuralDOM.progressTextAr) {
+        neuralDOM.progressTextAr.textContent = remainingTextAr;
+    }
 }
 
 function updateNeuralStats() {
     // Update streak
-    neuralDOM.streakCounter.textContent = NeuralState.analytics.currentStreak;
+    if (neuralDOM.streakCounter) {
+        neuralDOM.streakCounter.textContent = NeuralState.analytics.currentStreak;
+    }
     
     // Update focus score
-    neuralDOM.focusScore.textContent = `${NeuralState.analytics.productivityScore}%`;
+    if (neuralDOM.focusScore) {
+        neuralDOM.focusScore.textContent = `${NeuralState.analytics.productivityScore}%`;
+    }
     updateScoreCircle(NeuralState.analytics.productivityScore);
     
     // Update session stats
-    neuralDOM.totalSessionTime.textContent = `${Math.floor(NeuralState.analytics.totalMinutes / 60)}h`;
-    neuralDOM.completedSessions.textContent = NeuralState.analytics.totalSessions;
-    neuralDOM.focusLevel.textContent = `Lvl ${NeuralState.userLevel}`;
+    if (neuralDOM.totalSessionTime) {
+        neuralDOM.totalSessionTime.textContent = `${Math.floor(NeuralState.analytics.totalMinutes / 60)}h`;
+    }
+    
+    if (neuralDOM.completedSessions) {
+        neuralDOM.completedSessions.textContent = NeuralState.analytics.totalSessions;
+    }
+    
+    if (neuralDOM.focusLevel) {
+        neuralDOM.focusLevel.textContent = `Lvl ${NeuralState.userLevel}`;
+    }
     
     // Update footer stats
-    neuralDOM.footerSessions.textContent = NeuralState.analytics.totalSessions;
-    neuralDOM.footerHours.textContent = Math.floor(NeuralState.analytics.totalMinutes / 60);
-    neuralDOM.footerProductivity.textContent = `${NeuralState.analytics.productivityScore}%`;
+    if (neuralDOM.footerSessions) {
+        neuralDOM.footerSessions.textContent = NeuralState.analytics.totalSessions;
+    }
+    
+    if (neuralDOM.footerHours) {
+        neuralDOM.footerHours.textContent = Math.floor(NeuralState.analytics.totalMinutes / 60);
+    }
+    
+    if (neuralDOM.footerProductivity) {
+        neuralDOM.footerProductivity.textContent = `${NeuralState.analytics.productivityScore}%`;
+    }
     
     // Update active boosters
-    const activeCount = Object.values(NeuralState.psychology).filter(v => v).length;
-    neuralDOM.activeBoosters.textContent = activeCount;
+    if (neuralDOM.activeBoosters) {
+        const activeCount = Object.values(NeuralState.psychology).filter(v => v).length;
+        neuralDOM.activeBoosters.textContent = activeCount;
+    }
 }
 
 function updateScoreCircle(score) {
@@ -562,7 +635,9 @@ function updatePsychologyBoosters() {
     
     // Update active count
     const activeCount = Object.values(NeuralState.psychology).filter(v => v).length;
-    neuralDOM.activeBoosters.textContent = activeCount;
+    if (neuralDOM.activeBoosters) {
+        neuralDOM.activeBoosters.textContent = activeCount;
+    }
 }
 
 // ===== TIMER SYSTEM =====
@@ -572,8 +647,8 @@ function startNeuralTimer() {
     console.log('⏱️ Neural Timer Activated');
     
     NeuralState.timerActive = true;
-    neuralDOM.startBtn.disabled = true;
-    neuralDOM.pauseBtn.disabled = false;
+    if (neuralDOM.startBtn) neuralDOM.startBtn.disabled = true;
+    if (neuralDOM.pauseBtn) neuralDOM.pauseBtn.disabled = false;
     
     // Start session tracking
     NeuralState.currentSession = {
@@ -642,8 +717,8 @@ function pauseNeuralTimer() {
     clearInterval(NeuralState.timerInterval);
     NeuralState.timerInterval = null;
     
-    neuralDOM.startBtn.disabled = false;
-    neuralDOM.pauseBtn.disabled = true;
+    if (neuralDOM.startBtn) neuralDOM.startBtn.disabled = false;
+    if (neuralDOM.pauseBtn) neuralDOM.pauseBtn.disabled = true;
     
     // Psychology: Loss Aversion trigger
     if (NeuralState.psychology.lossAversion) {
@@ -687,8 +762,8 @@ function resetNeuralTimer() {
         : (NeuralState.timerMode === 'custom' ? NeuralState.focusDuration : 0);
     
     // Reset UI
-    neuralDOM.startBtn.disabled = false;
-    neuralDOM.pauseBtn.disabled = true;
+    if (neuralDOM.startBtn) neuralDOM.startBtn.disabled = false;
+    if (neuralDOM.pauseBtn) neuralDOM.pauseBtn.disabled = true;
     
     updateNeuralTimer();
     
@@ -728,8 +803,8 @@ function completeNeuralSession() {
     saveNeuralState();
     
     // Update UI
-    neuralDOM.startBtn.disabled = false;
-    neuralDOM.pauseBtn.disabled = true;
+    if (neuralDOM.startBtn) neuralDOM.startBtn.disabled = false;
+    if (neuralDOM.pauseBtn) neuralDOM.pauseBtn.disabled = true;
     updateNeuralStats();
     
     // Psychology: Delayed Reward
@@ -820,6 +895,8 @@ function showNeuralMessage(type = 'startup') {
     const messages = NeuralState.neuralMessages[NeuralState.language][type] || 
                     NeuralState.neuralMessages[NeuralState.language].startup;
     
+    if (!messages || messages.length === 0) return;
+    
     const messageIndex = Math.floor(Math.random() * messages.length);
     const message = messages[messageIndex];
     
@@ -827,14 +904,16 @@ function showNeuralMessage(type = 'startup') {
     const otherLang = NeuralState.language === 'en' ? 'ar' : 'en';
     const otherMessages = NeuralState.neuralMessages[otherLang][type] || 
                          NeuralState.neuralMessages[otherLang].startup;
-    const otherMessage = otherMessages[messageIndex] || otherMessages[0];
+    const otherMessage = otherMessages && otherMessages.length > 0 
+        ? otherMessages[messageIndex] || otherMessages[0] 
+        : '';
     
-    if (NeuralState.language === 'ar') {
-        neuralDOM.arabicMessage.textContent = message;
-        neuralDOM.englishMessage.textContent = otherMessage;
-    } else {
-        neuralDOM.englishMessage.textContent = message;
-        neuralDOM.arabicMessage.textContent = otherMessage;
+    if (neuralDOM.arabicMessage) {
+        neuralDOM.arabicMessage.textContent = NeuralState.language === 'ar' ? message : otherMessage;
+    }
+    
+    if (neuralDOM.englishMessage) {
+        neuralDOM.englishMessage.textContent = NeuralState.language === 'en' ? message : otherMessage;
     }
     
     // Animation
@@ -847,12 +926,12 @@ function showCustomNeuralMessage(message) {
         ? "Focus message activated"
         : "تم تفعيل رسالة التركيز";
     
-    if (NeuralState.language === 'ar') {
-        neuralDOM.arabicMessage.textContent = message;
-        neuralDOM.englishMessage.textContent = otherMessage;
-    } else {
-        neuralDOM.englishMessage.textContent = message;
-        neuralDOM.arabicMessage.textContent = otherMessage;
+    if (neuralDOM.arabicMessage) {
+        neuralDOM.arabicMessage.textContent = NeuralState.language === 'ar' ? message : otherMessage;
+    }
+    
+    if (neuralDOM.englishMessage) {
+        neuralDOM.englishMessage.textContent = NeuralState.language === 'en' ? message : otherMessage;
     }
     
     // Animation
@@ -861,10 +940,12 @@ function showCustomNeuralMessage(message) {
 
 function animateMessage() {
     const messageCard = document.querySelector('.message-card');
-    messageCard.style.animation = 'none';
-    setTimeout(() => {
-        messageCard.style.animation = 'slideInUp 0.5s ease';
-    }, 10);
+    if (messageCard) {
+        messageCard.style.animation = 'none';
+        setTimeout(() => {
+            messageCard.style.animation = 'slideInUp 0.5s ease';
+        }, 10);
+    }
 }
 
 // ===== ACTIVITY SYSTEM =====
@@ -881,9 +962,9 @@ function selectNeuralActivity(activity) {
     });
     
     // Show custom panel if needed
-    if (activity === 'custom') {
+    if (activity === 'custom' && neuralDOM.customActivityPanel) {
         neuralDOM.customActivityPanel.classList.add('active');
-    } else {
+    } else if (neuralDOM.customActivityPanel) {
         neuralDOM.customActivityPanel.classList.remove('active');
     }
     
@@ -917,8 +998,13 @@ function updateTimerModeLabel() {
         }
     };
     
-    neuralDOM.timerModeLabel.textContent = labels.en[NeuralState.currentActivity];
-    neuralDOM.timerModeLabelAr.textContent = labels.ar[NeuralState.currentActivity];
+    if (neuralDOM.timerModeLabel) {
+        neuralDOM.timerModeLabel.textContent = labels.en[NeuralState.currentActivity] || "FOCUS MODE";
+    }
+    
+    if (neuralDOM.timerModeLabelAr) {
+        neuralDOM.timerModeLabelAr.textContent = labels.ar[NeuralState.currentActivity] || "مود التركيز";
+    }
 }
 
 function reinforceNeuralIdentity() {
@@ -977,7 +1063,7 @@ function createNeuralParticles() {
     particlesContainer.innerHTML = '';
     
     // Create particles based on device
-    const particleCount = NeuralState.deviceType === 'mobile' ? 20 : 50;
+    const particleCount = NeuralState.deviceType === 'mobile' ? 15 : 30;
     
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
@@ -1006,7 +1092,7 @@ function createNeuralParticles() {
         particlesContainer.appendChild(particle);
     }
     
-    // Add CSS animation
+    // Add CSS animation if not exists
     if (!document.querySelector('#particle-animations')) {
         const style = document.createElement('style');
         style.id = 'particle-animations';
@@ -1079,10 +1165,9 @@ function visualizeEndState() {
 }
 
 function playNeuralSound(type) {
-    // Conceptual sound system - in real app would use Web Audio API
+    // Conceptual sound system
     console.log(`🔊 Playing neural sound: ${type}`);
     
-    // For demo purposes, just log
     const sounds = {
         start: '▶️ Focus activated',
         pause: '⏸️ Focus suspended',
@@ -1095,22 +1180,46 @@ function playNeuralSound(type) {
 
 // ===== EVENT HANDLERS =====
 function setupNeuralConnections() {
-    // Welcome Modal
-    neuralDOM.enterBtn.addEventListener('click', () => {
-        neuralDOM.welcomeModal.classList.remove('active');
-        activatePsychologyEngine();
-        showNeuralMessage('startup');
-    });
+    console.log('🔗 Setting up neural connections...');
     
-    neuralDOM.cancelBtn.addEventListener('click', () => {
-        neuralDOM.welcomeModal.classList.remove('active');
-        showNeuralMessage('motivation');
-    });
+    // Welcome Modal
+    if (neuralDOM.enterBtn) {
+        neuralDOM.enterBtn.addEventListener('click', () => {
+            console.log('🚀 Enter button clicked');
+            if (neuralDOM.welcomeModal) {
+                neuralDOM.welcomeModal.classList.remove('active');
+            }
+            localStorage.setItem('hasSeenWelcome', 'true');
+            activatePsychologyEngine();
+            showNeuralMessage('startup');
+        });
+    } else {
+        console.error('❌ Enter button not found');
+    }
+    
+    if (neuralDOM.cancelBtn) {
+        neuralDOM.cancelBtn.addEventListener('click', () => {
+            console.log('❌ Cancel button clicked');
+            if (neuralDOM.welcomeModal) {
+                neuralDOM.welcomeModal.classList.remove('active');
+            }
+            localStorage.setItem('hasSeenWelcome', 'true');
+            showNeuralMessage('motivation');
+        });
+    }
     
     // Timer Controls
-    neuralDOM.startBtn.addEventListener('click', startNeuralTimer);
-    neuralDOM.pauseBtn.addEventListener('click', pauseNeuralTimer);
-    neuralDOM.resetBtn.addEventListener('click', resetNeuralTimer);
+    if (neuralDOM.startBtn) {
+        neuralDOM.startBtn.addEventListener('click', startNeuralTimer);
+    }
+    
+    if (neuralDOM.pauseBtn) {
+        neuralDOM.pauseBtn.addEventListener('click', pauseNeuralTimer);
+    }
+    
+    if (neuralDOM.resetBtn) {
+        neuralDOM.resetBtn.addEventListener('click', resetNeuralTimer);
+    }
     
     // Mode Selection
     neuralDOM.modeButtons.forEach(btn => {
@@ -1145,37 +1254,39 @@ function setupNeuralConnections() {
     });
     
     // Custom Activity
-    neuralDOM.saveCustomBtn.addEventListener('click', () => {
-        const activityName = neuralDOM.customActivityInput.value.trim();
-        const duration = parseInt(neuralDOM.customDuration.value);
-        
-        if (activityName) {
-            // Add to custom activities
-            NeuralState.customActivities.push({
-                name: activityName,
-                duration: duration,
-                createdAt: new Date().toISOString()
-            });
+    if (neuralDOM.saveCustomBtn) {
+        neuralDOM.saveCustomBtn.addEventListener('click', () => {
+            const activityName = neuralDOM.customActivityInput.value.trim();
+            const duration = parseInt(neuralDOM.customDuration.value);
             
-            // Set as current activity
-            NeuralState.currentActivity = 'custom';
-            NeuralState.focusDuration = duration * 60;
-            
-            // Update UI
-            selectNeuralActivity('custom');
-            updateNeuralTimer();
-            
-            // Show confirmation
-            const confirmMsg = NeuralState.language === 'ar'
-                ? `"${activityName}" اتعملت! ${duration} دقيقة تركيز`
-                : `"${activityName}" created! ${duration} minutes of focus`;
-            
-            showCustomNeuralMessage(confirmMsg);
-            
-            // Save state
-            saveNeuralState();
-        }
-    });
+            if (activityName) {
+                // Add to custom activities
+                NeuralState.customActivities.push({
+                    name: activityName,
+                    duration: duration,
+                    createdAt: new Date().toISOString()
+                });
+                
+                // Set as current activity
+                NeuralState.currentActivity = 'custom';
+                NeuralState.focusDuration = duration * 60;
+                
+                // Update UI
+                selectNeuralActivity('custom');
+                updateNeuralTimer();
+                
+                // Show confirmation
+                const confirmMsg = NeuralState.language === 'ar'
+                    ? `"${activityName}" اتعملت! ${duration} دقيقة تركيز`
+                    : `"${activityName}" created! ${duration} minutes of focus`;
+                
+                showCustomNeuralMessage(confirmMsg);
+                
+                // Save state
+                saveNeuralState();
+            }
+        });
+    }
     
     // Psychology Boosters
     neuralDOM.boosterToggles.forEach(toggle => {
@@ -1193,7 +1304,9 @@ function setupNeuralConnections() {
             
             // Update counter
             const activeCount = Object.values(NeuralState.psychology).filter(v => v).length;
-            neuralDOM.activeBoosters.textContent = activeCount;
+            if (neuralDOM.activeBoosters) {
+                neuralDOM.activeBoosters.textContent = activeCount;
+            }
             
             // Save state
             saveNeuralState();
@@ -1215,100 +1328,117 @@ function setupNeuralConnections() {
     });
     
     // Quick Actions
-    neuralDOM.quickStartBtn.addEventListener('click', () => {
-        if (!NeuralState.timerActive) {
-            startNeuralTimer();
-        }
-    });
-    
-    neuralDOM.deepFocusBtn.addEventListener('click', () => {
-        // Activate all psychology boosters
-        Object.keys(NeuralState.psychology).forEach(key => {
-            NeuralState.psychology[key] = true;
+    if (neuralDOM.quickStartBtn) {
+        neuralDOM.quickStartBtn.addEventListener('click', () => {
+            if (!NeuralState.timerActive) {
+                startNeuralTimer();
+            }
         });
-        
-        // Update UI
-        updatePsychologyBoosters();
-        
-        // Show message
-        const msg = NeuralState.language === 'ar'
-            ? "كل المعززات النفسية اتعملت! تركيز عميق مفعل!"
-            : "All psychology boosters activated! Deep focus engaged!";
-        
-        showCustomNeuralMessage(msg);
-        
-        // Start timer if not running
-        if (!NeuralState.timerActive) {
-            startNeuralTimer();
-        }
-    });
+    }
     
-    neuralDOM.quickBreakBtn.addEventListener('click', () => {
-        if (NeuralState.timerActive) {
-            pauseNeuralTimer();
-        }
-        
-        // Set break timer
-        NeuralState.timerMode = 'custom';
-        NeuralState.focusDuration = 5 * 60; // 5 minute break
-        NeuralState.currentTime = NeuralState.focusDuration;
-        
-        // Update UI
-        neuralDOM.modeButtons.forEach(b => b.classList.remove('active'));
-        document.querySelector('.mode-btn[data-mode="custom"]').classList.add('active');
-        updateNeuralTimer();
-        
-        // Show break message
-        const msg = NeuralState.language === 'ar'
-            ? "راحة ٥ دقائق مفعلة! استعد لجولة جديدة!"
-            : "5 minute break activated! Prepare for next round!";
-        
-        showCustomNeuralMessage(msg);
-        
-        // Start break timer
-        setTimeout(() => {
-            startNeuralTimer();
-        }, 1000);
-    });
+    if (neuralDOM.deepFocusBtn) {
+        neuralDOM.deepFocusBtn.addEventListener('click', () => {
+            // Activate all psychology boosters
+            Object.keys(NeuralState.psychology).forEach(key => {
+                NeuralState.psychology[key] = true;
+            });
+            
+            // Update UI
+            updatePsychologyBoosters();
+            
+            // Show message
+            const msg = NeuralState.language === 'ar'
+                ? "كل المعززات النفسية اتعملت! تركيز عميق مفعل!"
+                : "All psychology boosters activated! Deep focus engaged!";
+            
+            showCustomNeuralMessage(msg);
+            
+            // Start timer if not running
+            if (!NeuralState.timerActive) {
+                startNeuralTimer();
+            }
+        });
+    }
     
-    neuralDOM.focusMusicBtn.addEventListener('click', () => {
-        // In a real app, this would play focus music
-        const msg = NeuralState.language === 'ar'
-            ? "موسيقى التركيز: موجات دماغية مثالية للانتاجية!"
-            : "Focus Music: Perfect brainwaves for productivity!";
-        
-        showCustomNeuralMessage(msg);
-        
-        // Visual effect
-        document.body.classList.add('music-active');
-        setTimeout(() => {
-            document.body.classList.remove('music-active');
-        }, 1000);
-    });
+    if (neuralDOM.quickBreakBtn) {
+        neuralDOM.quickBreakBtn.addEventListener('click', () => {
+            if (NeuralState.timerActive) {
+                pauseNeuralTimer();
+            }
+            
+            // Set break timer
+            NeuralState.timerMode = 'custom';
+            NeuralState.focusDuration = 5 * 60; // 5 minute break
+            NeuralState.currentTime = NeuralState.focusDuration;
+            
+            // Update UI
+            neuralDOM.modeButtons.forEach(b => b.classList.remove('active'));
+            const customModeBtn = document.querySelector('.mode-btn[data-mode="custom"]');
+            if (customModeBtn) customModeBtn.classList.add('active');
+            updateNeuralTimer();
+            
+            // Show break message
+            const msg = NeuralState.language === 'ar'
+                ? "راحة ٥ دقائق مفعلة! استعد لجولة جديدة!"
+                : "5 minute break activated! Prepare for next round!";
+            
+            showCustomNeuralMessage(msg);
+            
+            // Start break timer
+            setTimeout(() => {
+                startNeuralTimer();
+            }, 1000);
+        });
+    }
+    
+    if (neuralDOM.focusMusicBtn) {
+        neuralDOM.focusMusicBtn.addEventListener('click', () => {
+            // In a real app, this would play focus music
+            const msg = NeuralState.language === 'ar'
+                ? "موسيقى التركيز: موجات دماغية مثالية للانتاجية!"
+                : "Focus Music: Perfect brainwaves for productivity!";
+            
+            showCustomNeuralMessage(msg);
+            
+            // Visual effect
+            document.body.classList.add('music-active');
+            setTimeout(() => {
+                document.body.classList.remove('music-active');
+            }, 1000);
+        });
+    }
     
     // Next Message
-    neuralDOM.nextMsgBtn.addEventListener('click', () => {
-        showNeuralMessage('motivation');
-    });
+    if (neuralDOM.nextMsgBtn) {
+        neuralDOM.nextMsgBtn.addEventListener('click', () => {
+            showNeuralMessage('motivation');
+        });
+    }
     
     // Fullscreen
-    neuralDOM.fullscreenBtn.addEventListener('click', () => {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch(err => {
-                console.log(`Fullscreen error: ${err.message}`);
-            });
-            neuralDOM.fullscreenBtn.innerHTML = '<i class="fas fa-compress-alt"></i>';
-        } else {
-            document.exitFullscreen();
-            neuralDOM.fullscreenBtn.innerHTML = '<i class="fas fa-expand-alt"></i>';
-        }
-    });
+    if (neuralDOM.fullscreenBtn) {
+        neuralDOM.fullscreenBtn.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Fullscreen error: ${err.message}`);
+                });
+                neuralDOM.fullscreenBtn.innerHTML = '<i class="fas fa-compress-alt"></i>';
+            } else {
+                document.exitFullscreen();
+                neuralDOM.fullscreenBtn.innerHTML = '<i class="fas fa-expand-alt"></i>';
+            }
+        });
+    }
     
     // Stats Modal
-    neuralDOM.statsBtn.addEventListener('click', () => {
-        neuralDOM.statsModal.classList.add('active');
-        updateStatsDisplay();
-    });
+    if (neuralDOM.statsBtn) {
+        neuralDOM.statsBtn.addEventListener('click', () => {
+            if (neuralDOM.statsModal) {
+                neuralDOM.statsModal.classList.add('active');
+            }
+            updateStatsDisplay();
+        });
+    }
     
     // Close modals
     document.querySelectorAll('.close-modal').forEach(btn => {
@@ -1336,6 +1466,8 @@ function setupNeuralConnections() {
             }
         }
     });
+    
+    console.log('✅ Neural connections established');
 }
 
 function updateStatsDisplay() {
@@ -1378,17 +1510,23 @@ function showExitProtection() {
     
     // Add event listeners
     setTimeout(() => {
-        document.getElementById('confirmExit').addEventListener('click', () => {
-            document.body.removeChild(exitModal);
-            // Allow exit
-        });
+        const confirmExitBtn = document.getElementById('confirmExit');
+        const stayFocusedBtn = document.getElementById('stayFocused');
         
-        document.getElementById('stayFocused').addEventListener('click', () => {
-            document.body.removeChild(exitModal);
-            showCustomNeuralMessage(NeuralState.language === 'ar'
-                ? "كفو! رجّع شغلك! عقلك يستاهل التركيز!"
-                : "Good choice! Back to work! Your brain deserves this focus!");
-        });
+        if (confirmExitBtn) {
+            confirmExitBtn.addEventListener('click', () => {
+                document.body.removeChild(exitModal);
+            });
+        }
+        
+        if (stayFocusedBtn) {
+            stayFocusedBtn.addEventListener('click', () => {
+                document.body.removeChild(exitModal);
+                showCustomNeuralMessage(NeuralState.language === 'ar'
+                    ? "كفو! رجّع شغلك! عقلك يستاهل التركيز!"
+                    : "Good choice! Back to work! Your brain deserves this focus!");
+            });
+        }
     }, 100);
 }
 
@@ -1448,8 +1586,12 @@ function updateProductivityScore(change) {
         Math.min(100, NeuralState.analytics.productivityScore + change));
     
     updateScoreCircle(NeuralState.analytics.productivityScore);
-    neuralDOM.focusScore.textContent = `${NeuralState.analytics.productivityScore}%`;
-    neuralDOM.footerProductivity.textContent = `${NeuralState.analytics.productivityScore}%`;
+    if (neuralDOM.focusScore) {
+        neuralDOM.focusScore.textContent = `${NeuralState.analytics.productivityScore}%`;
+    }
+    if (neuralDOM.footerProductivity) {
+        neuralDOM.footerProductivity.textContent = `${NeuralState.analytics.productivityScore}%`;
+    }
 }
 
 function startCognitiveEngine() {
@@ -1476,9 +1618,66 @@ function startCognitiveEngine() {
     }, 60000);
 }
 
+// ===== MOBILE OPTIMIZATIONS =====
+function optimizeForMobile() {
+    if (NeuralState.deviceType === 'mobile' || NeuralState.deviceType === 'tablet') {
+        console.log('📱 Applying mobile optimizations');
+        
+        // تقليل عدد الجسيمات للموبايل
+        const particleCount = NeuralState.deviceType === 'mobile' ? 15 : 30;
+        
+        // تعديل timings للموبايل
+        if (window.innerWidth <= 768) {
+            // تقليل animation durations للموبايل
+            document.documentElement.style.setProperty('--transition-normal', '200ms');
+            document.documentElement.style.setProperty('--transition-slow', '300ms');
+            
+            // تحسين الذاكرة للموبايل
+            setInterval(() => {
+                if (!NeuralState.timerActive) {
+                    // Clean up particles when not needed
+                    const particles = document.querySelectorAll('.neural-particle');
+                    if (particles.length > particleCount * 2) {
+                        particles.forEach((p, i) => {
+                            if (i > particleCount) p.remove();
+                        });
+                    }
+                }
+            }, 30000);
+        }
+    }
+}
+
+function setupTouchEvents() {
+    console.log('👆 Setting up touch events');
+    
+    // Touch feedback للbuttons
+    const buttons = document.querySelectorAll('button, .btn, .action-btn');
+    buttons.forEach(btn => {
+        btn.addEventListener('touchstart', function() {
+            this.style.opacity = '0.8';
+        });
+        btn.addEventListener('touchend', function() {
+            this.style.opacity = '';
+        });
+    });
+    
+    // إضافة touch feedback للكروت
+    neuralDOM.activityCards.forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+        });
+        card.addEventListener('touchend', function() {
+            this.style.transform = '';
+        });
+    });
+}
+
 // ===== INITIALIZE =====
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('📄 DOM Content Loaded');
     // Small delay for smoother startup
     setTimeout(neuralInit, 100);
 });
@@ -1514,78 +1713,4 @@ if (typeof module !== 'undefined' && module.exports) {
         switchNeuralLanguage,
         selectNeuralActivity
     };
-}// أضف هذه الدالة في قسم Environment Detection في app.js
-function optimizeForMobile() {
-    if (NeuralState.deviceType === 'mobile' || NeuralState.deviceType === 'tablet') {
-        // تقليل عدد الجسيمات للموبايل
-        const particleCount = NeuralState.deviceType === 'mobile' ? 15 : 30;
-        
-        // تعديل timings للموبايل
-        if (window.innerWidth <= 768) {
-            // تقليل animation durations للموبايل
-            document.documentElement.style.setProperty('--transition-normal', '200ms');
-            document.documentElement.style.setProperty('--transition-slow', '300ms');
-            
-            // إضافة touch feedback للكروت
-            neuralDOM.activityCards.forEach(card => {
-                card.style.cursor = 'pointer';
-                card.addEventListener('touchstart', function() {
-                    this.style.transform = 'scale(0.98)';
-                });
-                card.addEventListener('touchend', function() {
-                    this.style.transform = '';
-                });
-            });
-        }
-        
-        // تحسين الذاكرة للموبايل
-        setInterval(() => {
-            if (!NeuralState.timerActive) {
-                // Clean up particles when not needed
-                const particles = document.querySelectorAll('.neural-particle');
-                if (particles.length > particleCount * 2) {
-                    particles.forEach((p, i) => {
-                        if (i > particleCount) p.remove();
-                    });
-                }
-            }
-        }, 30000);
-    }
-}
-
-// استدعاء الدالة في neuralInit
-function neuralInit() {
-    console.log('⚡ Neural Focus System Initializing...');
-    
-    detectNeuralEnvironment();
-    loadNeuralState();
-    setupNeuralConnections();
-    initializeNeuralInterface();
-    startCognitiveEngine();
-    optimizeForMobile(); // <-- إضافة هذا السطر
-    
-    console.log('🧠 Neural System Ready');
-}
-
-// إضافة touch events للbuttons
-function setupTouchEvents() {
-    // Touch feedback للbuttons
-    const buttons = document.querySelectorAll('button, .btn, .action-btn');
-    buttons.forEach(btn => {
-        btn.addEventListener('touchstart', function() {
-            this.style.opacity = '0.8';
-        });
-        btn.addEventListener('touchend', function() {
-            this.style.opacity = '';
-        });
-    });
-}
-
-// استدعاء في setupNeuralConnections
-function setupNeuralConnections() {
-    // ... الكود الحالي ...
-    
-    setupTouchEvents(); // <-- إضافة هذا السطر
-    
-    // ... باقي الكود ...
 }
