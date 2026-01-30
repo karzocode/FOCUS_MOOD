@@ -21,6 +21,10 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
 </head>
 <body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#mainContainer" class="skip-to-content english">Skip to main content</a>
+    <a href="#mainContainer" class="skip-to-content arabic">تخطي إلى المحتوى الرئيسي</a>
+    
     <!-- Particle Background -->
     <div class="particles" id="particles"></div>
     
@@ -553,7 +557,7 @@
                             </div>
                         </div>
                         
-                        <div class="booster-card active" data-booster="flow">
+                        <div class="booster-card active" data-booster="flowProtection">
                             <div class="booster-toggle">
                                 <label class="toggle-switch">
                                     <input type="checkbox" checked>
@@ -577,7 +581,7 @@
                             </div>
                         </div>
                         
-                        <div class="booster-card active" data-booster="ego">
+                        <div class="booster-card active" data-booster="egoTrigger">
                             <div class="booster-toggle">
                                 <label class="toggle-switch">
                                     <input type="checkbox" checked>
@@ -601,7 +605,7 @@
                             </div>
                         </div>
                         
-                        <div class="booster-card active" data-booster="reward">
+                        <div class="booster-card active" data-booster="delayedReward">
                             <div class="booster-toggle">
                                 <label class="toggle-switch">
                                     <input type="checkbox" checked>
@@ -625,7 +629,7 @@
                             </div>
                         </div>
                         
-                        <div class="booster-card" data-booster="anchoring">
+                        <div class="booster-card" data-booster="temporalAnchor">
                             <div class="booster-toggle">
                                 <label class="toggle-switch">
                                     <input type="checkbox">
@@ -649,7 +653,7 @@
                             </div>
                         </div>
                         
-                        <div class="booster-card" data-booster="visualization">
+                        <div class="booster-card" data-booster="endStateVision">
                             <div class="booster-toggle">
                                 <label class="toggle-switch">
                                     <input type="checkbox">
@@ -867,7 +871,35 @@
                 <button class="close-modal" id="closeTimerBtn">&times;</button>
             </div>
             <div class="modal-body">
-                <!-- Settings will be loaded dynamically -->
+                <div class="timer-settings">
+                    <div class="setting-group">
+                        <h4 class="english">Focus Duration</h4>
+                        <h4 class="arabic">مدة التركيز</h4>
+                        <input type="range" min="5" max="120" value="25" class="duration-slider">
+                        <div class="slider-value">
+                            <span class="english">25 minutes</span>
+                            <span class="arabic">٢٥ دقيقة</span>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <h4 class="english">Break Duration</h4>
+                        <h4 class="arabic">مدة الراحة</h4>
+                        <input type="range" min="1" max="30" value="5" class="duration-slider">
+                        <div class="slider-value">
+                            <span class="english">5 minutes</span>
+                            <span class="arabic">٥ دقائق</span>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-actions">
+                        <button class="btn btn-save" id="saveTimerSettings">
+                            <i class="fas fa-save"></i>
+                            <span class="english">SAVE SETTINGS</span>
+                            <span class="arabic">حفظ الإعدادات</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
